@@ -165,7 +165,9 @@ class apache::mod::ssl (
 
   # storage type defaults to shmcb for backwards compatibility
   if $ssl_sessioncache !~ /^(none$|nonenotnull$|\w+:)/ {
-    $ssl_sessioncache = "shmcb:${ssl_sessioncache}"
+    $_ssl_sessioncache = "shmcb:${ssl_sessioncache}"
+  } else {
+    $_ssl_sessioncache = $ssl_sessioncache
   }
 
   if $::osfamily == 'Suse' {
