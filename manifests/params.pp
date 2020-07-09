@@ -76,7 +76,7 @@ class apache::params inherits ::apache::version {
     $dev_packages         = "${_scl_httpd_name}-httpd-devel"
     $default_ssl_cert     = '/etc/pki/tls/certs/localhost.crt'
     $default_ssl_key      = '/etc/pki/tls/private/localhost.key'
-    $ssl_sessioncache     = '/var/cache/mod_ssl/scache(512000)'
+    $ssl_sessioncache     = '"shmcb:/var/cache/mod_ssl/scache(512000)"'
     $passenger_conf_file  = 'passenger_extra.conf'
     $passenger_conf_package_file = 'passenger.conf'
     $passenger_root       = undef
@@ -188,7 +188,7 @@ class apache::params inherits ::apache::version {
     $dev_packages         = 'httpd-devel'
     $default_ssl_cert     = '/etc/pki/tls/certs/localhost.crt'
     $default_ssl_key      = '/etc/pki/tls/private/localhost.key'
-    $ssl_sessioncache     = '/var/cache/mod_ssl/scache(512000)'
+    $ssl_sessioncache     = '"shmcb:/var/cache/mod_ssl/scache(512000)"'
     $passenger_conf_file  = 'passenger_extra.conf'
     $passenger_conf_package_file = 'passenger.conf'
     $passenger_root       = undef
@@ -343,7 +343,7 @@ class apache::params inherits ::apache::version {
     $mpm_module          = 'worker'
     $default_ssl_cert    = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
     $default_ssl_key     = '/etc/ssl/private/ssl-cert-snakeoil.key'
-    $ssl_sessioncache    = "\${APACHE_RUN_DIR}/ssl_scache(512000)"
+    $ssl_sessioncache    = "\"shmcb:\${APACHE_RUN_DIR}/ssl_scache(512000)\""
     $suphp_addhandler    = 'x-httpd-php'
     $suphp_engine        = 'off'
     $suphp_configpath    = '/etc/php5/apache2'
@@ -575,7 +575,7 @@ class apache::params inherits ::apache::version {
     $dev_packages     = undef
     $default_ssl_cert = '/usr/local/etc/apache24/server.crt'
     $default_ssl_key  = '/usr/local/etc/apache24/server.key'
-    $ssl_sessioncache  = '/var/run/ssl_scache(512000)'
+    $ssl_sessioncache  = '"shmcb:/var/run/ssl_scache(512000)"'
     $passenger_conf_file = 'passenger.conf'
     $passenger_conf_package_file = undef
     $passenger_root   = '/usr/local/lib/ruby/gems/2.0/gems/passenger-4.0.58'
@@ -647,7 +647,7 @@ class apache::params inherits ::apache::version {
     $dev_packages     = undef
     $default_ssl_cert = '/etc/ssl/apache2/server.crt'
     $default_ssl_key  = '/etc/ssl/apache2/server.key'
-    $ssl_sessioncache  = '/var/run/ssl_scache(512000)'
+    $ssl_sessioncache  = '"shmcb:/var/run/ssl_scache(512000)"'
     $passenger_root   = '/usr'
     $passenger_ruby   = '/usr/bin/ruby'
     $passenger_conf_file = 'passenger.conf'
@@ -723,7 +723,7 @@ class apache::params inherits ::apache::version {
       $default_ssl_cert    = '/etc/apache2/ssl.crt/default-server.crt'
       $default_ssl_key     = '/etc/apache2/ssl.key/default-server.key'
     }
-    $ssl_sessioncache    = '/var/lib/apache2/ssl_scache(512000)'
+    $ssl_sessioncache    = '"shmcb:/var/lib/apache2/ssl_scache(512000)"'
     $suphp_addhandler    = 'x-httpd-php'
     $suphp_engine        = 'off'
     $suphp_configpath    = '/etc/php5/apache2'

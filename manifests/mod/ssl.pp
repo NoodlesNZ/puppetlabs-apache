@@ -148,14 +148,24 @@ class apache::mod::ssl (
 
   if $stapling_cache =~ Undef {
     $_stapling_cache = $::osfamily ? {
-      'debian'  => "\${APACHE_RUN_DIR}/ocsp(32768)",
-      'redhat'  => '/run/httpd/ssl_stapling(32768)',
-      'freebsd' => '/var/run/ssl_stapling(32768)',
-      'gentoo'  => '/var/run/ssl_stapling(32768)',
-      'Suse'    => '/var/lib/apache2/ssl_stapling(32768)',
+      'debian'  => "\"shmcb:\${APACHE_RUN_DIR}/ocsp(32768)\"",
+      'redhat'  => '"shmcb:/run/httpd/ssl_stapling(32768)"',
+      'freebsd' => '"shmcb:/var/run/ssl_stapling(32768)"',
+      'gentoo'  => '"shmcb:/var/run/ssl_stapling(32768)"',
+      'Suse'    => '"shmcb:/var/lib/apache2/ssl_stapling(32768)"',
     }
   } else {
-    $_stapling_cache = $stapling_cache
+    # storage type defaults to shmcb for backwards compatibility
+    if $stapling_cache !~ /^(none$|nonenotnull$|\w+:)/ {
+      $_stapling_cache = "shmcb:${stapling_cache}"
+    } else {
+      $_stapling_cache = $stapling_cache
+    }
+  }
+
+  # storage type defaults to shmcb for backwards compatibility
+  if $ssl_sessioncache !~ /^(none$|nonenotnull$|\w+:)/ {
+    $ssl_sessioncache = "shmcb:${ssl_sessioncache}"
   }
 
   if $::osfamily == 'Suse' {
