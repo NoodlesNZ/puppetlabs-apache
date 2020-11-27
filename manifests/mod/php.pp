@@ -16,6 +16,7 @@ class apache::mod::php (
   $php_version      = $apache::params::php_version,
   $libphp_prefix    = 'libphp',
   $lib              = undef,
+  $mod_id           = undef,
 ) inherits apache::params {
   include apache
   $mod = "php${php_version}"
@@ -70,12 +71,18 @@ class apache::mod::php (
     $_lib = "${libphp_prefix}${php_version}.so"
   }
 
+  if ($mod_id) {
+    $_id = $mod_id
+  } else {
+    $_id = "php${_php_major}_module"
+  }
+
   if $::operatingsystem == 'SLES' {
     ::apache::mod { $mod:
       package        => $_package_name,
       package_ensure => $package_ensure,
       lib            => "mod_${mod}.so",
-      id             => "php${_php_major}_module",
+      id             => $_id,
       path           => "${apache::lib_path}/mod_${mod}.so",
     }
   } else {
@@ -83,7 +90,7 @@ class apache::mod::php (
       package        => $_package_name,
       package_ensure => $package_ensure,
       lib            => $_lib,
-      id             => "php${_php_major}_module",
+      id             => $_id,
       path           => $path,
     }
   }
