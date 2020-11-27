@@ -1,6 +1,6 @@
 # @summary
 #   Installs `mod_php`.
-# 
+#
 # @todo
 #   Add docs
 # @note Unsupported platforms: SLES: all
@@ -14,7 +14,8 @@ class apache::mod::php (
   $source           = undef,
   $root_group       = $apache::params::root_group,
   $php_version      = $apache::params::php_version,
-  $libphp_prefix    = 'libphp'
+  $libphp_prefix    = 'libphp',
+  $lib              = undef,
 ) inherits apache::params {
   include apache
   $mod = "php${php_version}"
@@ -60,7 +61,9 @@ class apache::mod::php (
 
   $_php_major = regsubst($php_version, '^(\d+)\..*$', '\1')
   $_php_version_no_dot = regsubst($php_version, '\.', '')
-  if $apache::version::scl_httpd_version {
+  if ($lib) {
+    $_lib = $lib
+  } else if $apache::version::scl_httpd_version {
     $_lib = "librh-php${_php_version_no_dot}-php${_php_major}.so"
   } else {
     # Controls php version and libphp prefix
