@@ -63,7 +63,7 @@ class apache::mod::php (
   $_php_version_no_dot = regsubst($php_version, '\.', '')
   if ($lib) {
     $_lib = $lib
-  } else if $apache::version::scl_httpd_version {
+  } elsif $apache::version::scl_httpd_version {
     $_lib = "librh-php${_php_version_no_dot}-php${_php_major}.so"
   } else {
     # Controls php version and libphp prefix
