@@ -320,6 +320,16 @@ describe 'apache::mod::ssl', type: :class do
       let :params do
         {
           apache_version: '2.4',
+          stapling_cache: 'shmcb:/tmp/customstaplingcache(51200)',
+        }
+      end
+
+      it { is_expected.to contain_file('ssl.conf').with_content(%r{^  SSLStaplingCache "shmcb:/tmp/customstaplingcache\(51200\)"$}) }
+    end
+    context 'with Apache version >= 2.4 - setting stapling_cache without storage type' do
+      let :params do
+        {
+          apache_version: '2.4',
           stapling_cache: '/tmp/customstaplingcache(51200)',
         }
       end
@@ -367,6 +377,15 @@ describe 'apache::mod::ssl', type: :class do
       it { is_expected.to contain_file('ssl.conf').with_content(%r{^  SSLMutex posixsem$}) }
     end
     context 'setting ssl_sessioncache' do
+      let :params do
+        {
+          ssl_sessioncache: 'shmcb:/tmp/customsessioncache(51200)',
+        }
+      end
+
+      it { is_expected.to contain_file('ssl.conf').with_content(%r{^  SSLSessionCache "shmcb:/tmp/customsessioncache\(51200\)"$}) }
+    end
+    context 'setting ssl_sessioncache without storage type' do
       let :params do
         {
           ssl_sessioncache: '/tmp/customsessioncache(51200)',
